@@ -1,8 +1,10 @@
 import { CheckCircleOutlineRounded } from '@mui/icons-material'
 import { alpha, Box, ListItemButton, styled, Typography } from '@mui/material'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { BaseLoading } from '@/components/base'
+import { useNodeSocksPorts } from '@/hooks/use-node-socks-ports'
 import { useProxyDelayState } from '@/hooks/use-proxy-delay-state'
 import delayManager from '@/services/delay'
 import {
@@ -10,6 +12,8 @@ import {
   type ProxyGroupView,
   type ResolvedProxyMember,
 } from '@/types/proxy-view'
+
+import { NodeSocksPortDialog } from './node-socks-port-dialog'
 
 interface Props {
   group: ProxyGroupView
@@ -30,6 +34,12 @@ export const ProxyItemMini = (props: Props) => {
 
   const { t } = useTranslation()
 
+  // 右键节点可设置其专属本地 SOCKS5 端口
+  const { ports } = useNodeSocksPorts()
+  const [portDialogOpen, setPortDialogOpen] = useState(false)
+  const canBindPort = member.kind === 'node'
+  const socksPort = canBindPort ? ports[name] : undefined
+
   // -1/<=0 为不显示，-2 为 loading
   const { delayValue, isPreset, timeout, onDelay } = useProxyDelayState(
     member,
@@ -37,191 +47,220 @@ export const ProxyItemMini = (props: Props) => {
   )
 
   return (
-    <ListItemButton
-      dense
-      disabled={unresolved}
-      selected={!unresolved && selected}
-      onClick={unresolved ? undefined : () => onClick?.(member)}
-      sx={[
-        {
-          height: 56,
-          borderRadius: 1.5,
-          pl: 1.5,
-          pr: 1,
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        },
-        ({ palette: { mode, primary } }) => {
-          const bgcolor = mode === 'light' ? '#ffffff' : '#24252f'
-          const showDelay = delayValue > 0
-          const selectColor = mode === 'light' ? primary.main : primary.light
+    <>
+      <ListItemButton
+        dense
+        disabled={unresolved}
+        selected={!unresolved && selected}
+        onClick={unresolved ? undefined : () => onClick?.(member)}
+        onContextMenu={
+          canBindPort
+            ? (e) => {
+                e.preventDefault()
+                setPortDialogOpen(true)
+              }
+            : undefined
+        }
+        sx={[
+          {
+            height: 56,
+            borderRadius: 1.5,
+            pl: 1.5,
+            pr: 1,
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          },
+          ({ palette: { mode, primary } }) => {
+            const bgcolor = mode === 'light' ? '#ffffff' : '#24252f'
+            const showDelay = delayValue > 0
+            const selectColor = mode === 'light' ? primary.main : primary.light
 
-          return {
-            '&:hover .the-check': { display: !showDelay ? 'block' : 'none' },
-            '&:hover .the-delay': { display: showDelay ? 'block' : 'none' },
-            '&:hover .the-icon': { display: 'none' },
-            '& .the-pin, & .the-unpin': {
-              position: 'absolute',
-              fontSize: '12px',
-              top: '-5px',
-              right: '-5px',
-            },
-            '& .the-unpin': { filter: 'grayscale(1)' },
-            '&.Mui-selected': {
-              width: `calc(100% + 3px)`,
-              marginLeft: `-3px`,
-              borderLeft: `3px solid ${selectColor}`,
-              bgcolor:
-                mode === 'light'
-                  ? alpha(primary.main, 0.15)
-                  : alpha(primary.main, 0.35),
-            },
-            backgroundColor: bgcolor,
-          }
-        },
-      ]}
-    >
-      <Box title={`${name}\n${now ?? ''}`} sx={{ overflow: 'hidden' }}>
-        <Typography
-          variant="body2"
-          component="div"
-          color="text.primary"
-          sx={{
-            display: 'block',
-            textOverflow: 'ellipsis',
-            wordBreak: 'break-all',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {name}
-        </Typography>
-
-        {showType && (
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'nowrap',
-              flex: 'none',
-              marginTop: '4px',
-            }}
-          >
-            {now && (
-              <Typography
-                variant="body2"
-                component="div"
-                color="text.secondary"
-                sx={{
-                  display: 'block',
-                  textOverflow: 'ellipsis',
-                  wordBreak: 'break-all',
-                  overflow: 'hidden',
-                  whiteSpace: 'nowrap',
-                  marginRight: '8px',
-                }}
-              >
-                {now}
-              </Typography>
-            )}
-            <TypeBox color="text.secondary" component="span">
-              {type}
-            </TypeBox>
-            {!unresolved && details?.udp && (
-              <TypeBox color="text.secondary" component="span">
-                UDP
-              </TypeBox>
-            )}
-            {!unresolved && details?.xudp && (
-              <TypeBox color="text.secondary" component="span">
-                XUDP
-              </TypeBox>
-            )}
-            {!unresolved && details?.tfo && (
-              <TypeBox color="text.secondary" component="span">
-                TFO
-              </TypeBox>
-            )}
-            {!unresolved && details?.mptcp && (
-              <TypeBox color="text.secondary" component="span">
-                MPTCP
-              </TypeBox>
-            )}
-            {!unresolved && details?.smux && (
-              <TypeBox color="text.secondary" component="span">
-                SMUX
-              </TypeBox>
-            )}
-          </Box>
-        )}
-      </Box>
-      <Box
-        sx={{ ml: 0.5, color: 'primary.main', display: isPreset ? 'none' : '' }}
+            return {
+              '&:hover .the-check': { display: !showDelay ? 'block' : 'none' },
+              '&:hover .the-delay': { display: showDelay ? 'block' : 'none' },
+              '&:hover .the-icon': { display: 'none' },
+              '& .the-pin, & .the-unpin': {
+                position: 'absolute',
+                fontSize: '12px',
+                top: '-5px',
+                right: '-5px',
+              },
+              '& .the-unpin': { filter: 'grayscale(1)' },
+              '&.Mui-selected': {
+                width: `calc(100% + 3px)`,
+                marginLeft: `-3px`,
+                borderLeft: `3px solid ${selectColor}`,
+                bgcolor:
+                  mode === 'light'
+                    ? alpha(primary.main, 0.15)
+                    : alpha(primary.main, 0.35),
+              },
+              backgroundColor: bgcolor,
+            }
+          },
+        ]}
       >
-        {!unresolved && delayValue === -2 && (
-          <Widget>
-            <BaseLoading />
-          </Widget>
-        )}
-        {!unresolved && delayValue !== -2 && (
-          <Widget
-            className="the-check"
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              void onDelay()
+        <Box title={`${name}\n${now ?? ''}`} sx={{ overflow: 'hidden' }}>
+          <Typography
+            variant="body2"
+            component="div"
+            color="text.primary"
+            sx={{
+              display: 'block',
+              textOverflow: 'ellipsis',
+              wordBreak: 'break-all',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
             }}
-            sx={({ palette }) => ({
-              display: 'none', // hover 时显示
-              ':hover': { bgcolor: alpha(palette.primary.main, 0.15) },
-            })}
           >
-            {t('shared.actions.check')}
-          </Widget>
-        )}
+            {name}
+          </Typography>
 
-        {!unresolved && delayValue >= 0 && (
-          // 显示延迟
-          <Widget
-            className="the-delay"
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              void onDelay()
-            }}
-            sx={({ palette }) => ({
-              color: delayManager.formatDelayColor(delayValue, timeout),
-              ':hover': { bgcolor: alpha(palette.primary.main, 0.15) },
-            })}
-          >
-            {delayManager.formatDelay(delayValue, timeout)}
-          </Widget>
-        )}
-        {!unresolved &&
-          type !== 'Direct' &&
-          delayValue !== -2 &&
-          delayValue < 0 &&
-          selected && (
-            // 展示已选择的 icon
-            <CheckCircleOutlineRounded
-              className="the-icon"
-              sx={{ fontSize: 16, mr: 0.5, display: 'block' }}
-            />
+          {socksPort !== undefined && !showType && (
+            <Box sx={{ display: 'flex', marginTop: '4px' }}>
+              <TypeBox color="text.secondary" component="span">
+                {`:${socksPort}`}
+              </TypeBox>
+            </Box>
           )}
-      </Box>
-      {!unresolved && group.fixed && group.fixed === name && (
-        // 展示 fixed 状态
-        <span
-          className={name === group.now ? 'the-pin' : 'the-unpin'}
-          title={
-            group.type === 'URLTest'
-              ? t('proxies.page.labels.delayCheckReset')
-              : ''
-          }
+
+          {showType && (
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'nowrap',
+                flex: 'none',
+                marginTop: '4px',
+              }}
+            >
+              {now && (
+                <Typography
+                  variant="body2"
+                  component="div"
+                  color="text.secondary"
+                  sx={{
+                    display: 'block',
+                    textOverflow: 'ellipsis',
+                    wordBreak: 'break-all',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    marginRight: '8px',
+                  }}
+                >
+                  {now}
+                </Typography>
+              )}
+              {socksPort !== undefined && (
+                <TypeBox color="text.secondary" component="span">
+                  {`:${socksPort}`}
+                </TypeBox>
+              )}
+              <TypeBox color="text.secondary" component="span">
+                {type}
+              </TypeBox>
+              {!unresolved && details?.udp && (
+                <TypeBox color="text.secondary" component="span">
+                  UDP
+                </TypeBox>
+              )}
+              {!unresolved && details?.xudp && (
+                <TypeBox color="text.secondary" component="span">
+                  XUDP
+                </TypeBox>
+              )}
+              {!unresolved && details?.tfo && (
+                <TypeBox color="text.secondary" component="span">
+                  TFO
+                </TypeBox>
+              )}
+              {!unresolved && details?.mptcp && (
+                <TypeBox color="text.secondary" component="span">
+                  MPTCP
+                </TypeBox>
+              )}
+              {!unresolved && details?.smux && (
+                <TypeBox color="text.secondary" component="span">
+                  SMUX
+                </TypeBox>
+              )}
+            </Box>
+          )}
+        </Box>
+        <Box
+          sx={{ ml: 0.5, color: 'primary.main', display: isPreset ? 'none' : '' }}
         >
-          📌
-        </span>
-      )}
-    </ListItemButton>
+          {!unresolved && delayValue === -2 && (
+            <Widget>
+              <BaseLoading />
+            </Widget>
+          )}
+          {!unresolved && delayValue !== -2 && (
+            <Widget
+              className="the-check"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                void onDelay()
+              }}
+              sx={({ palette }) => ({
+                display: 'none', // hover 时显示
+                ':hover': { bgcolor: alpha(palette.primary.main, 0.15) },
+              })}
+            >
+              {t('shared.actions.check')}
+            </Widget>
+          )}
+
+          {!unresolved && delayValue >= 0 && (
+            // 显示延迟
+            <Widget
+              className="the-delay"
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                void onDelay()
+              }}
+              sx={({ palette }) => ({
+                color: delayManager.formatDelayColor(delayValue, timeout),
+                ':hover': { bgcolor: alpha(palette.primary.main, 0.15) },
+              })}
+            >
+              {delayManager.formatDelay(delayValue, timeout)}
+            </Widget>
+          )}
+          {!unresolved &&
+            type !== 'Direct' &&
+            delayValue !== -2 &&
+            delayValue < 0 &&
+            selected && (
+              // 展示已选择的 icon
+              <CheckCircleOutlineRounded
+                className="the-icon"
+                sx={{ fontSize: 16, mr: 0.5, display: 'block' }}
+              />
+            )}
+        </Box>
+        {!unresolved && group.fixed && group.fixed === name && (
+          // 展示 fixed 状态
+          <span
+            className={name === group.now ? 'the-pin' : 'the-unpin'}
+            title={
+              group.type === 'URLTest'
+                ? t('proxies.page.labels.delayCheckReset')
+                : ''
+            }
+          >
+            📌
+          </span>
+        )}
+      </ListItemButton>
+    {portDialogOpen && (
+      <NodeSocksPortDialog
+        name={name}
+        onClose={() => setPortDialogOpen(false)}
+      />
+    )}
+    </>
   )
 }
 

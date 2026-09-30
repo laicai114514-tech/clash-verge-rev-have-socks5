@@ -100,7 +100,8 @@ fn determine_update_flags(patch: &IVerge) -> UpdateFlags {
     let http_port = patch.verge_port;
     let multi_socks_changed = patch.verge_multi_socks_enabled.is_some()
         || patch.verge_multi_socks_start_port.is_some()
-        || patch.verge_multi_socks_count.is_some();
+        || patch.verge_multi_socks_count.is_some()
+        || patch.verge_node_socks_ports.is_some();
     #[cfg(target_os = "macos")]
     let enable_tray_speed = patch.enable_tray_speed;
     #[cfg(not(target_os = "macos"))]

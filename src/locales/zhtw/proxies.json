@@ -86,6 +86,17 @@
     "title": {
       "default": "代理組",
       "chainMode": "鏈式代理模式"
+    },
+    "socksPort": {
+      "title": "設定本機 SOCKS5 連接埠",
+      "label": "連接埠",
+      "hint": "範圍 1024–65535，儲存後核心會重新啟動。右鍵節點可再次修改。",
+      "invalid": "請輸入 1024–65535 之間的連接埠",
+      "reserved": "該連接埠已被 Clash 自身連接埠佔用",
+      "usedByOther": "該連接埠已分配給其他節點",
+      "remove": "移除連接埠",
+      "saved": "已儲存，核心重新啟動後生效",
+      "saveFailed": "儲存失敗"
     }
   },
   "feedback": {

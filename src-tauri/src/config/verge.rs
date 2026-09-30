@@ -172,6 +172,9 @@ pub struct IVerge {
 
     pub verge_multi_socks_count: Option<u16>,
 
+    /// Per-node local SOCKS5 port, keyed by proxy name. Set from the node list.
+    pub verge_node_socks_ports: Option<std::collections::BTreeMap<String, u16>>,
+
     #[serde(
         serialize_with = "serialize_encrypted",
         deserialize_with = "deserialize_encrypted",
@@ -465,6 +468,7 @@ impl IVerge {
         patch!(verge_multi_socks_enabled);
         patch!(verge_multi_socks_start_port);
         patch!(verge_multi_socks_count);
+        patch!(verge_node_socks_ports);
         patch!(enable_system_proxy);
         patch!(enable_proxy_guard);
         patch!(enable_bypass_check);

@@ -588,6 +588,17 @@ export interface TranslationResources {
           select: string
           title: string
         }
+        socksPort: {
+          hint: string
+          invalid: string
+          label: string
+          remove: string
+          reserved: string
+          saved: string
+          saveFailed: string
+          title: string
+          usedByOther: string
+        }
         title: {
           chainMode: string
           default: string

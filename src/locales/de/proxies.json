@@ -86,6 +86,17 @@
     "title": {
       "default": "Proxy-Gruppen",
       "chainMode": "Proxy Chain Mode"
+    },
+    "socksPort": {
+      "title": "Local SOCKS5 Port",
+      "label": "Port",
+      "hint": "Range 1024–65535. The core restarts after saving. Right-click the node to change it again.",
+      "invalid": "Enter a port between 1024 and 65535",
+      "reserved": "This port is used by Clash itself",
+      "usedByOther": "This port is already assigned to another node",
+      "remove": "Remove port",
+      "saved": "Saved. Takes effect after the core restarts",
+      "saveFailed": "Save failed"
     }
   },
   "feedback": {

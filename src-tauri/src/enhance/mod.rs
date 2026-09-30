@@ -26,7 +26,7 @@ use clash_verge_logging::{Type, logging};
 use parking_lot::Mutex;
 use serde_yaml_ng::{Mapping, Value};
 use smartstring::alias::String;
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeMap, HashMap, HashSet};
 use tokio::fs;
 
 type ResultLog = Vec<(String, String)>;
@@ -42,6 +42,7 @@ struct ConfigValues {
     dns_override_confirmation: Option<String>,
     enable_external_controller: bool,
     multi_socks: Option<MultiSocks>,
+    node_socks_ports: BTreeMap<std::string::String, u16>,
     #[cfg(not(target_os = "windows"))]
     redir_enabled: bool,
     #[cfg(target_os = "linux")]
@@ -132,8 +133,14 @@ async fn get_config_values(profile_uid: &str) -> ConfigValues {
         ref verge_multi_socks_enabled,
         ref verge_multi_socks_start_port,
         ref verge_multi_socks_count,
+        ref verge_node_socks_ports,
         ..
     } = **verge_arc;
+    let node_socks_ports: BTreeMap<std::string::String, u16> = verge_node_socks_ports
+        .iter()
+        .flatten()
+        .map(|(name, port)| (name.to_string(), *port))
+        .collect();
     let multi_socks = verge_multi_socks_enabled.unwrap_or(false).then(|| MultiSocks {
         start_port: verge_multi_socks_start_port.unwrap_or(10001),
         count: verge_multi_socks_count.unwrap_or(20),
@@ -171,6 +178,7 @@ async fn get_config_values(profile_uid: &str) -> ConfigValues {
         dns_override_confirmation,
         enable_external_controller,
         multi_socks,
+        node_socks_ports,
         #[cfg(not(target_os = "windows"))]
         redir_enabled,
         #[cfg(target_os = "linux")]
@@ -569,8 +577,8 @@ fn port_of_address(addr: &str) -> Option<u16> {
     addr.rsplit(':').next()?.trim().parse().ok()
 }
 
-/// Appends one loopback SOCKS5 listener per node, skipping ports the config already uses.
-fn apply_multi_socks(mut config: Mapping, settings: MultiSocks) -> Mapping {
+/// Ports the config already binds (Clash's own inbound ports, controller, existing listeners).
+fn used_ports(config: &Mapping) -> HashSet<u16> {
     let mut used: HashSet<u16> = HashSet::new();
     for key in ["mixed-port", "socks-port", "port", "redir-port", "tproxy-port"] {
         if let Some(port) = config.get(key).and_then(Value::as_u64).and_then(|p| u16::try_from(p).ok()) {
@@ -584,20 +592,61 @@ fn apply_multi_socks(mut config: Mapping, settings: MultiSocks) -> Mapping {
     {
         used.insert(port);
     }
+    if let Some(items) = config.get("listeners").and_then(Value::as_sequence) {
+        for item in items {
+            if let Some(port) = item.get("port").and_then(Value::as_u64).and_then(|p| u16::try_from(p).ok()) {
+                used.insert(port);
+            }
+        }
+    }
+    used
+}
 
+/// One loopback SOCKS5 listener per user-chosen (node name -> port) pair from the node list.
+/// A port that is already taken is skipped rather than failing the whole config.
+fn apply_node_socks_ports(mut config: Mapping, ports: &BTreeMap<std::string::String, u16>) -> Mapping {
+    if ports.is_empty() {
+        return config;
+    }
+    let mut used = used_ports(&config);
     let mut listeners = match config.remove("listeners") {
         Some(Value::Sequence(items)) => items,
         _ => Vec::new(),
     };
-    for item in &listeners {
-        if let Some(port) = item
-            .get("port")
-            .and_then(Value::as_u64)
-            .and_then(|p| u16::try_from(p).ok())
-        {
-            used.insert(port);
+
+    for (name, &port) in ports {
+        if port == 0 || used.contains(&port) {
+            continue;
         }
+        let mut listener = Mapping::new();
+        listener.insert("name".into(), format!("socks-{port}").into());
+        listener.insert("type".into(), "socks".into());
+        listener.insert("listen".into(), "127.0.0.1".into());
+        listener.insert("port".into(), u64::from(port).into());
+        listener.insert("udp".into(), true.into());
+        listener.insert("proxy".into(), name.as_str().into());
+        listeners.push(listener.into());
+        used.insert(port);
     }
+
+    if !listeners.is_empty() {
+        config.insert("listeners".into(), listeners.into());
+    }
+    config
+}
+
+/// Appends one loopback SOCKS5 listener per node, skipping ports the config already uses.
+fn apply_multi_socks(mut config: Mapping, settings: MultiSocks) -> Mapping {
+    let mut used = used_ports(&config);
+    let mut listeners = match config.remove("listeners") {
+        Some(Value::Sequence(items)) => items,
+        _ => Vec::new(),
+    };
+    // Nodes that already own a listener (set from the node list or a script) keep it.
+    let bound: HashSet<std::string::String> = listeners
+        .iter()
+        .filter_map(|item| item.get("proxy").and_then(Value::as_str).map(Into::into))
+        .collect();
 
     let names: Vec<String> = config
         .get("proxies")
@@ -607,7 +656,7 @@ fn apply_multi_socks(mut config: Mapping, settings: MultiSocks) -> Mapping {
                 .filter_map(|item| item.get("name").and_then(Value::as_str))
                 .filter(|name| {
                     let lower = name.to_lowercase();
-                    !INFO_NODE_KEYWORDS.iter().any(|kw| lower.contains(kw))
+                    !bound.contains(*name) && !INFO_NODE_KEYWORDS.iter().any(|kw| lower.contains(kw))
                 })
                 .take(usize::from(settings.count))
                 .map(Into::into)
@@ -985,6 +1034,7 @@ pub async fn enhance(
         dns_override_confirmation,
         enable_external_controller,
         multi_socks,
+        node_socks_ports,
         #[cfg(not(target_os = "windows"))]
         redir_enabled,
         #[cfg(target_os = "linux")]
@@ -1058,6 +1108,7 @@ pub async fn enhance(
     notify_discarded_keys(authoritative.overridden(&authoritative, &authoritative.current(&config)));
     let config = authoritative.enforce(config);
     let config = ensure_lan_bind_address(config);
+    let config = apply_node_socks_ports(config, &node_socks_ports);
     let config = match multi_socks {
         Some(settings) => apply_multi_socks(config, settings),
         None => config,

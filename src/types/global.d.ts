@@ -907,6 +907,7 @@ interface IVergeConfig {
   verge_multi_socks_enabled?: boolean
   verge_multi_socks_start_port?: number
   verge_multi_socks_count?: number
+  verge_node_socks_ports?: Record<string, number>
   enable_proxy_guard?: boolean
   enable_bypass_check?: boolean
   use_default_bypass?: boolean

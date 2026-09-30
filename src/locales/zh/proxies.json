@@ -86,6 +86,17 @@
     "title": {
       "default": "代理组",
       "chainMode": "链式代理模式"
+    },
+    "socksPort": {
+      "title": "设置本地 SOCKS5 端口",
+      "label": "端口",
+      "hint": "范围 1024–65535，保存后内核会重启。右键节点可再次修改。",
+      "invalid": "请输入 1024–65535 之间的端口",
+      "reserved": "该端口已被 Clash 自身端口占用",
+      "usedByOther": "该端口已分配给其他节点",
+      "remove": "移除端口",
+      "saved": "已保存，内核重启后生效",
+      "saveFailed": "保存失败"
     }
   },
   "feedback": {
