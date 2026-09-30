@@ -100,7 +100,10 @@ export const ProxyItemMini = (props: Props) => {
           },
         ]}
       >
-        <Box title={`${name}\n${now ?? ''}`} sx={{ overflow: 'hidden' }}>
+        <Box
+          title={`${name}\n${now ?? ''}`}
+          sx={{ overflow: 'hidden', flex: 1, minWidth: 0 }}
+        >
           <Typography
             variant="body2"
             component="div"
@@ -115,14 +118,6 @@ export const ProxyItemMini = (props: Props) => {
           >
             {name}
           </Typography>
-
-          {socksPort !== undefined && !showType && (
-            <Box sx={{ display: 'flex', marginTop: '4px' }}>
-              <TypeBox color="text.secondary" component="span">
-                {`:${socksPort}`}
-              </TypeBox>
-            </Box>
-          )}
 
           {showType && (
             <Box
@@ -149,11 +144,6 @@ export const ProxyItemMini = (props: Props) => {
                 >
                   {now}
                 </Typography>
-              )}
-              {socksPort !== undefined && (
-                <TypeBox color="text.secondary" component="span">
-                  {`:${socksPort}`}
-                </TypeBox>
               )}
               <TypeBox color="text.secondary" component="span">
                 {type}
@@ -186,6 +176,23 @@ export const ProxyItemMini = (props: Props) => {
             </Box>
           )}
         </Box>
+        {socksPort !== undefined && (
+          <Typography
+            title={`SOCKS5 127.0.0.1:${socksPort}`}
+            sx={{
+              flex: 'none',
+              mx: 1,
+              fontSize: 22,
+              fontWeight: 800,
+              lineHeight: 1,
+              letterSpacing: 0.5,
+              color: 'warning.main',
+              userSelect: 'text',
+            }}
+          >
+            {socksPort}
+          </Typography>
+        )}
         <Box
           sx={{ ml: 0.5, color: 'primary.main', display: isPreset ? 'none' : '' }}
         >

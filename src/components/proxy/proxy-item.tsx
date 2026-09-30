@@ -130,9 +130,6 @@ export const ProxyItem = (props: Props) => {
                 {name}
                 {showType && now && ` - ${now}`}
               </Box>
-              {socksPort !== undefined && (
-                <TypeBox title="SOCKS5">{`:${socksPort}`}</TypeBox>
-              )}
               {showType && <TypeBox>{type}</TypeBox>}
               {!unresolved && showType && details?.udp && (
                 <TypeBox>UDP</TypeBox>
@@ -152,6 +149,24 @@ export const ProxyItem = (props: Props) => {
             </>
           }
         />
+
+        {socksPort !== undefined && (
+          <Box
+            title={`SOCKS5 127.0.0.1:${socksPort}`}
+            sx={{
+              flex: 'none',
+              mx: 1.5,
+              fontSize: 20,
+              fontWeight: 800,
+              lineHeight: 1,
+              letterSpacing: 0.5,
+              color: 'warning.main',
+              userSelect: 'text',
+            }}
+          >
+            {socksPort}
+          </Box>
+        )}
 
         <ListItemIcon
           sx={{
