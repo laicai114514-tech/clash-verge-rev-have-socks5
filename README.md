@@ -1,22 +1,18 @@
 <h1 align="center">
   <img src="./src-tauri/icons/icon.png" alt="Clash" width="128" />
   <br>
-  Continuation of <a href="https://github.com/zzzgydi/clash-verge">Clash Verge</a>
+  🚀Socks5 <a href="https://github.com/zzzgydi/clash-verge">Clash Verge</a>
   <br>
 </h1>
 
-<h3 align="center">
-A Clash Meta GUI based on <a href="https://github.com/tauri-apps/tauri">Tauri</a>.
-</h3>
-
 <p align="center">
   Languages:
-  <a href="./README.md">简体中文</a> ·
+  <a href="./README.md">简体中文</a> 
 </p>
 
 ## Install
 
-请到发布页面下载对应的安装包：[Release page](https://github.com/clash-verge-rev/clash-verge-rev/releases)
+请到发布页面下载对应的安装包：[Release page](https://github.com/laicai114514-tech/clash-verge-rev-have-socks5/releases)
 目前只有 Windows 版本
 
 #### 安装说明和常见问题，请到 [文档页](https://clash-verge-rev.github.io/) 查看
@@ -25,18 +21,18 @@ A Clash Meta GUI based on <a href="https://github.com/tauri-apps/tauri">Tauri</a
 
 本版本跟 官方 Clash verge 有什么**改动**
 
-适合那些做指纹浏览器，追求隐私保护的人，本地配置socks5端口
+适合那些做指纹浏览器，追求隐私保护的人，本地配置socks5端口，每个配置一个节点，不必每次使用都切换，更不会**切错节点**。
 
 如图所示
 
 **代理列表可以填写多本地端口**
-| ![预览](./docs/捕获2.PNG) |
+ ![预览](./docs/捕获2.PNG) 
 
 **设置-端口显示设置可以调节字体大小，颜色等**
-| ![预览](./docs/捕获1.PNG) |
+ ![预览](./docs/捕获1.PNG) 
 
 **指纹浏览器如图**
-| ![预览](./docs/捕获3.PNG) |
+ ![预览](./docs/捕获3.PNG) 
 
 ---
 
@@ -45,7 +41,7 @@ A Clash Meta GUI based on <a href="https://github.com/tauri-apps/tauri">Tauri</a
 ### ✈️ [佬大云 -- 性价比机场 ClaudeBorder](https://laodayun.net)
 
 - 💻 多种套餐可选择，**大众**，**专线**，**家宽**。
-- 🗺 全**高速稳定**正价节点。
+- 🗺 全**高速稳定**节点。
 - 🌏 **海外团队**，不跑路。
 - 💰 极致**稳定**，亲民价**价格**
 - 🌐 全面支持**流媒体及各AI访问**
