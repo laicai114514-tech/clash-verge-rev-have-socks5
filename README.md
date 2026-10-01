@@ -25,21 +25,24 @@ A Clash Meta GUI based on <a href="https://github.com/tauri-apps/tauri">Tauri</a
 
 本版本跟 官方 Clash verge 有什么**改动**
 
-代理列表可以填写多本地端口，适合那些做指纹浏览器，追求隐私保护的人，本地配置socks5端口
+适合那些做指纹浏览器，追求隐私保护的人，本地配置socks5端口
 
 如图所示
 
-| ![预览](./docs/preview_dark.png) |
+**代理列表可以填写多本地端口**
+| ![预览](./docs/捕获2.PNG) |
+
+**设置-端口显示设置可以调节字体大小，颜色等**
+| ![预览](./docs/捕获1.PNG) |
+
+**指纹浏览器如图**
+| ![预览](./docs/捕获3.PNG) |
 
 ---
 
 ## Promotion
 
 ### ✈️ [佬大云 -- 性价比机场 ClaudeBorder](https://laodayun.net)
-
-🔥热销中使用本链接注册即送 3 天免费试用**，每日 **1GB 流量**：👉 [点此注册](https://cruise.54678999.xyz/#/register?code=58q5UJZc)
-
-#### 佬大云 -- 性价比机场。
 
 - 💻 多种套餐可选择，**大众**，**专线**，**家宽**。
 - 🗺 全**高速稳定**正价节点。
