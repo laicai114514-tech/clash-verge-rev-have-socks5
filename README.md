@@ -5,10 +5,6 @@
   <br>
 </h1>
 
-<h3 align="center">
-A Clash Meta GUI based on <a href="https://github.com/tauri-apps/tauri">🚀Socks5</a>.
-</h3>
-
 <p align="center">
   Languages:
   <a href="./README.md">简体中文</a> ·
