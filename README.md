@@ -7,7 +7,7 @@
 
 <p align="center">
   Languages:
-  <a href="./README.md">简体中文</a> ·
+  <a href="./README.md">简体中文</a> 
 </p>
 
 ## Install
@@ -21,7 +21,7 @@
 
 本版本跟 官方 Clash verge 有什么**改动**
 
-适合那些做指纹浏览器，追求隐私保护的人，本地配置socks5端口
+适合那些做指纹浏览器，追求隐私保护的人，本地配置socks5端口，每个配置一个节点，不必每次使用都切换，更不会**切错节点**。
 
 如图所示
 
