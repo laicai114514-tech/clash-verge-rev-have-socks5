@@ -10,6 +10,8 @@
   <a href="./README.md">简体中文</a> 
 </p>
 
+#### 软件内提示更新，不要更新！！
+
 ## Install
 
 请到发布页面下载对应的安装包：[Release page](https://github.com/laicai114514-tech/clash-verge-rev-have-socks5/releases)
