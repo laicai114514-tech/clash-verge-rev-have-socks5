@@ -1,10 +1,8 @@
 import { CheckCircleOutlineRounded } from '@mui/icons-material'
 import { alpha, Box, ListItemButton, styled, Typography } from '@mui/material'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { BaseLoading } from '@/components/base'
-import { useNodeSocksPorts } from '@/hooks/use-node-socks-ports'
 import { useProxyDelayState } from '@/hooks/use-proxy-delay-state'
 import delayManager from '@/services/delay'
 import {
@@ -13,7 +11,7 @@ import {
   type ResolvedProxyMember,
 } from '@/types/proxy-view'
 
-import { NodeSocksPortDialog } from './node-socks-port-dialog'
+import { NodePortInput } from './node-port-input'
 
 interface Props {
   group: ProxyGroupView
@@ -34,11 +32,8 @@ export const ProxyItemMini = (props: Props) => {
 
   const { t } = useTranslation()
 
-  // 右键节点可设置其专属本地 SOCKS5 端口
-  const { ports } = useNodeSocksPorts()
-  const [portDialogOpen, setPortDialogOpen] = useState(false)
+  // 仅具体节点可设置专属本地 SOCKS5 端口
   const canBindPort = member.kind === 'node'
-  const socksPort = canBindPort ? ports[name] : undefined
 
   // -1/<=0 为不显示，-2 为 loading
   const { delayValue, isPreset, timeout, onDelay } = useProxyDelayState(
@@ -47,20 +42,11 @@ export const ProxyItemMini = (props: Props) => {
   )
 
   return (
-    <>
-      <ListItemButton
+    <ListItemButton
         dense
         disabled={unresolved}
         selected={!unresolved && selected}
         onClick={unresolved ? undefined : () => onClick?.(member)}
-        onContextMenu={
-          canBindPort
-            ? (e) => {
-                e.preventDefault()
-                setPortDialogOpen(true)
-              }
-            : undefined
-        }
         sx={[
           {
             height: 56,
@@ -79,13 +65,6 @@ export const ProxyItemMini = (props: Props) => {
               '&:hover .the-check': { display: !showDelay ? 'block' : 'none' },
               '&:hover .the-delay': { display: showDelay ? 'block' : 'none' },
               '&:hover .the-icon': { display: 'none' },
-              '& .the-pin, & .the-unpin': {
-                position: 'absolute',
-                fontSize: '12px',
-                top: '-5px',
-                right: '-5px',
-              },
-              '& .the-unpin': { filter: 'grayscale(1)' },
               '&.Mui-selected': {
                 width: `calc(100% + 3px)`,
                 marginLeft: `-3px`,
@@ -176,23 +155,7 @@ export const ProxyItemMini = (props: Props) => {
             </Box>
           )}
         </Box>
-        {socksPort !== undefined && (
-          <Typography
-            title={`SOCKS5 127.0.0.1:${socksPort}`}
-            sx={{
-              flex: 'none',
-              mx: 1,
-              fontSize: 22,
-              fontWeight: 800,
-              lineHeight: 1,
-              letterSpacing: 0.5,
-              color: 'warning.main',
-              userSelect: 'text',
-            }}
-          >
-            {socksPort}
-          </Typography>
-        )}
+        {canBindPort && <NodePortInput name={name} />}
         <Box
           sx={{ ml: 0.5, color: 'primary.main', display: isPreset ? 'none' : '' }}
         >
@@ -247,27 +210,7 @@ export const ProxyItemMini = (props: Props) => {
               />
             )}
         </Box>
-        {!unresolved && group.fixed && group.fixed === name && (
-          // 展示 fixed 状态
-          <span
-            className={name === group.now ? 'the-pin' : 'the-unpin'}
-            title={
-              group.type === 'URLTest'
-                ? t('proxies.page.labels.delayCheckReset')
-                : ''
-            }
-          >
-            📌
-          </span>
-        )}
-      </ListItemButton>
-    {portDialogOpen && (
-      <NodeSocksPortDialog
-        name={name}
-        onClose={() => setPortDialogOpen(false)}
-      />
-    )}
-    </>
+    </ListItemButton>
   )
 }
 

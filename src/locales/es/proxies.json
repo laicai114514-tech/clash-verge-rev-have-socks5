@@ -96,7 +96,19 @@
       "usedByOther": "This port is already assigned to another node",
       "remove": "Remove port",
       "saved": "Saved. Takes effect after the core restarts",
-      "saveFailed": "Save failed"
+      "saveFailed": "Save failed",
+      "placeholder": "Port",
+      "tooltip": "Enter a local SOCKS5 port and press Enter to save; clear it to remove",
+      "removed": "Port removed",
+      "openWindow": "Ports window",
+      "window": {
+        "title": "Node Ports",
+        "total": "{{n}} in total",
+        "address": "Local address 127.0.0.1, protocol SOCKS5",
+        "empty": "No ports yet. Open the Proxies page and type a port on a node.",
+        "copy": "Copy",
+        "copied": "Copied"
+      }
     }
   },
   "feedback": {

@@ -6,6 +6,7 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router'
 import { SWRConfig } from 'swr'
+import { getCurrentWindow } from '@tauri-apps/api/window'
 import { MihomoWebSocket } from 'tauri-plugin-mihomo-api'
 
 import { BaseErrorBoundary } from './components/base'
@@ -65,7 +66,37 @@ const initializeApp = (initialThemeMode: 'light' | 'dark') => {
   )
 }
 
+// The "node-ports" window loads the same bundle but only renders its own small page.
+const isNodePortsWindow = (() => {
+  try {
+    if (getCurrentWindow().label === 'node-ports') return true
+  } catch {
+    // not running inside Tauri
+  }
+  return new URLSearchParams(window.location.search).get('window') === 'node-ports'
+})()
+
+const bootstrapNodePortsWindow = async () => {
+  let initialThemeMode: 'light' | 'dark' = 'dark'
+  try {
+    initialThemeMode = (await preloadAppData()).initialThemeMode
+  } catch (error) {
+    console.error('[main.tsx] Ports window preload failed:', error)
+    await initializeLanguage(FALLBACK_LANGUAGE).catch(() => undefined)
+  }
+  const { NodePortsWindow } = await import('./pages/node-ports-window')
+  createRoot(container).render(
+    <React.StrictMode>
+      <NodePortsWindow themeMode={initialThemeMode} />
+    </React.StrictMode>,
+  )
+}
+
 const bootstrap = async () => {
+  if (isNodePortsWindow) {
+    await bootstrapNodePortsWindow()
+    return
+  }
   const appDataPromise = preloadAppData()
   void preloadHomePageCards()
 

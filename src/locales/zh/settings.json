@@ -176,7 +176,8 @@
           "themeSetting": "主题设置",
           "layoutSetting": "界面设置",
           "misc": "杂项设置",
-          "hotkeySetting": "热键设置"
+          "hotkeySetting": "热键设置",
+          "portStyle": "端口显示设置"
         }
       },
       "advanced": {
@@ -649,6 +650,19 @@
         "ipAddress": "IP 地址",
         "macAddress": "MAC 地址"
       }
+    },
+    "portStyle": {
+      "title": "端口显示设置",
+      "color": "颜色",
+      "fontSize": "字号",
+      "fontFamily": "字体",
+      "custom": "自定义…",
+      "customHint": "填写字体名，如 Consolas",
+      "bold": "加粗",
+      "reset": "恢复默认",
+      "openWindow": "打开端口一览窗口",
+      "saved": "已保存",
+      "saveFailed": "保存失败"
     }
   },
   "feedback": {

@@ -9,6 +9,32 @@ pub async fn open_app_dir() -> CmdResult<()> {
     open::that(app_dir).stringify_err()
 }
 
+/// Opens (or focuses) the standalone window listing each node's local SOCKS5 port.
+#[tauri::command]
+pub async fn open_node_ports_window(app_handle: AppHandle) -> CmdResult<()> {
+    use tauri::{WebviewUrl, WebviewWindowBuilder};
+
+    if let Some(window) = app_handle.get_webview_window("node-ports") {
+        let _ = window.unminimize();
+        let _ = window.show();
+        let _ = window.set_focus();
+        return Ok(());
+    }
+
+    WebviewWindowBuilder::new(
+        &app_handle,
+        "node-ports",
+        WebviewUrl::App("index.html?window=node-ports".into()),
+    )
+    .title("Node Ports")
+    .inner_size(460.0, 560.0)
+    .min_inner_size(340.0, 300.0)
+    .center()
+    .build()
+    .stringify_err()?;
+    Ok(())
+}
+
 #[tauri::command]
 pub async fn open_core_dir() -> CmdResult<()> {
     let core_dir = tauri::utils::platform::current_exe().stringify_err()?;

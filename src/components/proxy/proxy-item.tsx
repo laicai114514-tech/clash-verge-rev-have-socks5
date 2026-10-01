@@ -10,11 +10,9 @@ import {
   type SxProps,
   type Theme,
 } from '@mui/material'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { BaseLoading } from '@/components/base'
-import { useNodeSocksPorts } from '@/hooks/use-node-socks-ports'
 import { useProxyDelayState } from '@/hooks/use-proxy-delay-state'
 import delayManager from '@/services/delay'
 import {
@@ -23,7 +21,7 @@ import {
   type ResolvedProxyMember,
 } from '@/types/proxy-view'
 
-import { NodeSocksPortDialog } from './node-socks-port-dialog'
+import { NodePortInput } from './node-port-input'
 
 interface Props {
   group: ProxyGroupView
@@ -61,11 +59,8 @@ export const ProxyItem = (props: Props) => {
   const type = unresolved ? member.ref.reason : (details?.type ?? '')
   const now = member.kind === 'group' ? member.group.now : undefined
 
-  // 右键节点可设置其专属本地 SOCKS5 端口
-  const { ports } = useNodeSocksPorts()
-  const [portDialogOpen, setPortDialogOpen] = useState(false)
+  // 仅具体节点可设置专属本地 SOCKS5 端口
   const canBindPort = member.kind === 'node'
-  const socksPort = canBindPort ? ports[name] : undefined
 
   // -1/<=0 为不显示，-2 为 loading
   const { delayValue, isPreset, timeout, onDelay } = useProxyDelayState(
@@ -80,14 +75,6 @@ export const ProxyItem = (props: Props) => {
         disabled={unresolved}
         selected={!unresolved && selected}
         onClick={unresolved ? undefined : () => onClick?.(member)}
-        onContextMenu={
-          canBindPort
-            ? (e) => {
-                e.preventDefault()
-                setPortDialogOpen(true)
-              }
-            : undefined
-        }
         sx={[
           { borderRadius: 1 },
           ({ palette: { mode, primary } }) => {
@@ -150,23 +137,7 @@ export const ProxyItem = (props: Props) => {
           }
         />
 
-        {socksPort !== undefined && (
-          <Box
-            title={`SOCKS5 127.0.0.1:${socksPort}`}
-            sx={{
-              flex: 'none',
-              mx: 1.5,
-              fontSize: 20,
-              fontWeight: 800,
-              lineHeight: 1,
-              letterSpacing: 0.5,
-              color: 'warning.main',
-              userSelect: 'text',
-            }}
-          >
-            {socksPort}
-          </Box>
-        )}
+        {canBindPort && <NodePortInput name={name} />}
 
         <ListItemIcon
           sx={{
@@ -225,12 +196,6 @@ export const ProxyItem = (props: Props) => {
           )}
         </ListItemIcon>
       </ListItemButton>
-      {portDialogOpen && (
-        <NodeSocksPortDialog
-          name={name}
-          onClose={() => setPortDialogOpen(false)}
-        />
-      )}
     </ListItem>
   )
 }

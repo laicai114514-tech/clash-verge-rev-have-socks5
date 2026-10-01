@@ -176,7 +176,8 @@
           "themeSetting": "إعدادات السمة",
           "layoutSetting": "إعدادات التخطيط",
           "misc": "متفرقات",
-          "hotkeySetting": "إعدادات الاختصارات"
+          "hotkeySetting": "إعدادات الاختصارات",
+          "portStyle": "Port Display"
         }
       },
       "advanced": {
@@ -649,6 +650,19 @@
         "ipAddress": "عنوان IP",
         "macAddress": "عنوان MAC"
       }
+    },
+    "portStyle": {
+      "title": "Port Display",
+      "color": "Color",
+      "fontSize": "Font size",
+      "fontFamily": "Font",
+      "custom": "Custom…",
+      "customHint": "Font name, e.g. Consolas",
+      "bold": "Bold",
+      "reset": "Reset",
+      "openWindow": "Open ports window",
+      "saved": "Saved",
+      "saveFailed": "Save failed"
     }
   },
   "feedback": {

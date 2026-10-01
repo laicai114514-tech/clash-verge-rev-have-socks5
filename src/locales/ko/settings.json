@@ -176,7 +176,8 @@
           "themeSetting": "테마 설정",
           "layoutSetting": "레이아웃 설정",
           "misc": "기타",
-          "hotkeySetting": "단축키 설정"
+          "hotkeySetting": "단축키 설정",
+          "portStyle": "Port Display"
         }
       },
       "advanced": {
@@ -649,6 +650,19 @@
         "ipAddress": "IP 주소",
         "macAddress": "MAC 주소"
       }
+    },
+    "portStyle": {
+      "title": "Port Display",
+      "color": "Color",
+      "fontSize": "Font size",
+      "fontFamily": "Font",
+      "custom": "Custom…",
+      "customHint": "Font name, e.g. Consolas",
+      "bold": "Bold",
+      "reset": "Reset",
+      "openWindow": "Open ports window",
+      "saved": "Saved",
+      "saveFailed": "Save failed"
     }
   },
   "feedback": {

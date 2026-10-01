@@ -134,6 +134,7 @@ mod app_init {
             cmd::get_auto_proxy,
             cmd::get_embedded_server_port,
             cmd::open_app_dir,
+            cmd::open_node_ports_window,
             cmd::open_logs_dir,
             cmd::open_core_dir,
             cmd::get_network_interfaces,

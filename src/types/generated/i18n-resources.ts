@@ -592,12 +592,24 @@ export interface TranslationResources {
           hint: string
           invalid: string
           label: string
+          openWindow: string
+          placeholder: string
           remove: string
+          removed: string
           reserved: string
           saved: string
           saveFailed: string
           title: string
+          tooltip: string
           usedByOther: string
+          window: {
+            address: string
+            copied: string
+            copy: string
+            empty: string
+            title: string
+            total: string
+          }
         }
         title: {
           chainMode: string
@@ -739,6 +751,7 @@ export interface TranslationResources {
               language: string
               layoutSetting: string
               misc: string
+              portStyle: string
               startPage: string
               startupScript: string
               themeMode: string
@@ -1157,6 +1170,19 @@ export interface TranslationResources {
             ipAddress: string
             macAddress: string
           }
+          title: string
+        }
+        portStyle: {
+          bold: string
+          color: string
+          custom: string
+          customHint: string
+          fontFamily: string
+          fontSize: string
+          openWindow: string
+          reset: string
+          saved: string
+          saveFailed: string
           title: string
         }
         sysproxy: {

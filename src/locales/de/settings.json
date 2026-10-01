@@ -176,7 +176,8 @@
           "themeSetting": "Thema-Einstellungen",
           "layoutSetting": "Layout-Einstellungen",
           "misc": "Sonstige Einstellungen",
-          "hotkeySetting": "Tastenkombinationseinstellungen"
+          "hotkeySetting": "Tastenkombinationseinstellungen",
+          "portStyle": "Port Display"
         }
       },
       "advanced": {
@@ -649,6 +650,19 @@
         "ipAddress": "IP-Adresse",
         "macAddress": "MAC-Adresse"
       }
+    },
+    "portStyle": {
+      "title": "Port Display",
+      "color": "Color",
+      "fontSize": "Font size",
+      "fontFamily": "Font",
+      "custom": "Custom…",
+      "customHint": "Font name, e.g. Consolas",
+      "bold": "Bold",
+      "reset": "Reset",
+      "openWindow": "Open ports window",
+      "saved": "Saved",
+      "saveFailed": "Save failed"
     }
   },
   "feedback": {

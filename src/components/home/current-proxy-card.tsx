@@ -420,7 +420,6 @@ interface PersistentProxySelectProps
   value: string
   selectedName: string
   groupName: string
-  fixed?: string
   selectedDelay: number
   options: ProxyOption[]
   onChange: (value: string) => void
@@ -428,7 +427,6 @@ interface PersistentProxySelectProps
 
 const PersistentProxySelect = ({
   groupName,
-  fixed,
   selectedName,
   selectedDelay,
   options,
@@ -436,8 +434,6 @@ const PersistentProxySelect = ({
   onChange,
   ...props
 }: PersistentProxySelectProps) => {
-  const fixedProxyInUsed = selectedName === fixed
-
   return (
     <PersistentSelect
       {...props}
@@ -455,24 +451,11 @@ const PersistentProxySelect = ({
             label={delayManager.formatDelay(selectedDelay)}
             color={convertDelayColor(selectedDelay)}
           />
-          {fixedProxyInUsed && (
-            <span
-              style={{
-                position: 'absolute',
-                fontSize: '12px',
-                top: '-3px',
-                right: '25px',
-              }}
-            >
-              📌
-            </span>
-          )}
         </Box>
       }
       renderOptions={() =>
         options.map((option) => {
           const selected = option.value === value
-          const isFixed = option.name === fixed
           const delay = option.disabled
             ? -1
             : delayManager.getDelayFix(option.member, groupName)
@@ -495,21 +478,6 @@ const PersistentProxySelect = ({
                 pr: 1,
               }}
             >
-              {isFixed && (
-                <span
-                  style={{
-                    position: 'absolute',
-                    fontSize: '12px',
-                    top: '-5px',
-                    right: '5px',
-                    ...(!fixedProxyInUsed && {
-                      filter: 'grayscale(1)',
-                    }),
-                  }}
-                >
-                  📌
-                </span>
-              )}
               <Typography noWrap sx={{ flex: 1, mr: 1 }}>
                 {option.name}
               </Typography>
@@ -1100,7 +1068,10 @@ export const CurrentProxyCard = () => {
                     role="option"
                     aria-selected={group.name === selectedGroupName}
                     selected={group.name === selectedGroupName}
-                    onClick={() => handleGroupChange(group.name)}
+                    onClick={() => {
+                      handleGroupChange(group.name)
+                      setOpenSelect(null)
+                    }}
                   >
                     <Typography noWrap>{group.name}</Typography>
                   </MenuItem>
@@ -1112,7 +1083,6 @@ export const CurrentProxyCard = () => {
           <PersistentProxySelect
             label={t('home.components.currentProxy.labels.proxy')}
             groupName={selectedGroupName}
-            fixed={selectedGroup?.fixed}
             value={
               currentOption
                 ? optionValue(currentOption.memberIndex, currentOption.member)
@@ -1125,7 +1095,10 @@ export const CurrentProxyCard = () => {
             disabled={isDirectMode}
             keepOpenRef={delayButtonRef}
             onOpenChange={(open) => setOpenSelect(open ? 'proxy' : null)}
-            onChange={handleProxyChange}
+            onChange={(value) => {
+              handleProxyChange(value)
+              setOpenSelect(null)
+            }}
           />
         </Box>
       ) : (

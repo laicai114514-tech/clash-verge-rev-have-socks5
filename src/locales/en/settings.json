@@ -176,7 +176,8 @@
           "themeSetting": "Theme Setting",
           "layoutSetting": "Layout Setting",
           "misc": "Miscellaneous",
-          "hotkeySetting": "Hotkey Setting"
+          "hotkeySetting": "Hotkey Setting",
+          "portStyle": "Port Display"
         }
       },
       "advanced": {
@@ -649,6 +650,19 @@
         "ipAddress": "IP Address",
         "macAddress": "MAC Address"
       }
+    },
+    "portStyle": {
+      "title": "Port Display",
+      "color": "Color",
+      "fontSize": "Font size",
+      "fontFamily": "Font",
+      "custom": "Custom…",
+      "customHint": "Font name, e.g. Consolas",
+      "bold": "Bold",
+      "reset": "Reset",
+      "openWindow": "Open ports window",
+      "saved": "Saved",
+      "saveFailed": "Save failed"
     }
   },
   "feedback": {

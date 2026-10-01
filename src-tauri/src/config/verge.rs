@@ -11,6 +11,15 @@ use serde::{Deserialize, Serialize};
 use smartstring::alias::String;
 
 /// ### `verge.yaml` schema
+/// Look of the per-node SOCKS5 port label; unset fields fall back to the frontend defaults.
+#[derive(Default, Debug, Clone, Deserialize, Serialize)]
+pub struct NodePortStyle {
+    pub color: Option<String>,
+    pub font_size: Option<u16>,
+    pub font_family: Option<String>,
+    pub bold: Option<bool>,
+}
+
 #[derive(Default, Debug, Clone, Deserialize, Serialize)]
 pub struct IVerge {
     /// silent | error | warn | info | debug | trace
@@ -174,6 +183,9 @@ pub struct IVerge {
 
     /// Per-node local SOCKS5 port, keyed by proxy name. Set from the node list.
     pub verge_node_socks_ports: Option<std::collections::BTreeMap<String, u16>>,
+
+    /// How the per-node SOCKS5 port is drawn in the node list and the ports window.
+    pub node_port_style: Option<NodePortStyle>,
 
     #[serde(
         serialize_with = "serialize_encrypted",
@@ -469,6 +481,7 @@ impl IVerge {
         patch!(verge_multi_socks_start_port);
         patch!(verge_multi_socks_count);
         patch!(verge_node_socks_ports);
+        patch!(node_port_style);
         patch!(enable_system_proxy);
         patch!(enable_proxy_guard);
         patch!(enable_bypass_check);

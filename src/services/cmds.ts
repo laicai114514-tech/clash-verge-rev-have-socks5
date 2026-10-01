@@ -268,6 +268,12 @@ export async function getAppDir() {
   return invoke<string>('get_app_dir')
 }
 
+export async function openNodePortsWindow() {
+  return invoke<void>('open_node_ports_window').catch((err) =>
+    showNotice.error(err),
+  )
+}
+
 export async function openAppDir() {
   return invoke<void>('open_app_dir').catch((err) => showNotice.error(err))
 }

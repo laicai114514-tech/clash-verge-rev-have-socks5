@@ -1,4 +1,9 @@
-import { LanOutlined, LanRounded, WarningRounded } from '@mui/icons-material'
+import {
+  LanOutlined,
+  LanRounded,
+  SettingsEthernetRounded,
+  WarningRounded,
+} from '@mui/icons-material'
 import { Box, Button, ButtonGroup } from '@mui/material'
 import { useLockFn } from 'ahooks'
 import { useCallback, useEffect, useReducer, useState } from 'react'
@@ -13,6 +18,7 @@ import {
 } from '@/providers/app-data-context'
 import {
   getRuntimeProxyChainConfig,
+  openNodePortsWindow,
   patchClashMode,
   updateProxyChainConfigInRuntime,
 } from '@/services/cmds'
@@ -155,6 +161,12 @@ const ProxyPage = () => {
       header={
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <ProviderButton />
+
+          <TooltipIcon
+            title={t('proxies.page.socksPort.openWindow')}
+            icon={SettingsEthernetRounded}
+            onClick={() => void openNodePortsWindow()}
+          />
 
           <ButtonGroup size="small">
             {MODES.map((mode) => (

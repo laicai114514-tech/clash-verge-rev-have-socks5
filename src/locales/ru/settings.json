@@ -176,7 +176,8 @@
           "themeSetting": "Настройки темы",
           "layoutSetting": "Настройки раскладки",
           "misc": "Расширенные настройки",
-          "hotkeySetting": "Настройки сочетаний клавиш"
+          "hotkeySetting": "Настройки сочетаний клавиш",
+          "portStyle": "Port Display"
         }
       },
       "advanced": {
@@ -649,6 +650,19 @@
         "ipAddress": "IP-адрес",
         "macAddress": "MAC-адрес"
       }
+    },
+    "portStyle": {
+      "title": "Port Display",
+      "color": "Color",
+      "fontSize": "Font size",
+      "fontFamily": "Font",
+      "custom": "Custom…",
+      "customHint": "Font name, e.g. Consolas",
+      "bold": "Bold",
+      "reset": "Reset",
+      "openWindow": "Open ports window",
+      "saved": "Saved",
+      "saveFailed": "Save failed"
     }
   },
   "feedback": {

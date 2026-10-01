@@ -96,7 +96,19 @@
       "usedByOther": "該連接埠已分配給其他節點",
       "remove": "移除連接埠",
       "saved": "已儲存，核心重新啟動後生效",
-      "saveFailed": "儲存失敗"
+      "saveFailed": "儲存失敗",
+      "placeholder": "連接埠",
+      "tooltip": "填寫本機 SOCKS5 連接埠，按 Enter 儲存；清空則移除",
+      "removed": "已移除連接埠",
+      "openWindow": "連接埠一覽視窗",
+      "window": {
+        "title": "節點連接埠一覽",
+        "total": "共 {{n}} 個",
+        "address": "本機位址 127.0.0.1，協定 SOCKS5",
+        "empty": "尚未設定連接埠。到「代理」頁，在節點上填寫連接埠即可。",
+        "copy": "複製",
+        "copied": "已複製"
+      }
     }
   },
   "feedback": {

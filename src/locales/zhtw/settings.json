@@ -176,7 +176,8 @@
           "themeSetting": "主題設定",
           "layoutSetting": "介面設定",
           "misc": "雜項設定",
-          "hotkeySetting": "快速鍵設定"
+          "hotkeySetting": "快速鍵設定",
+          "portStyle": "連接埠顯示設定"
         }
       },
       "advanced": {
@@ -649,6 +650,19 @@
         "ipAddress": "IP 位址",
         "macAddress": "MAC 位址"
       }
+    },
+    "portStyle": {
+      "title": "連接埠顯示設定",
+      "color": "顏色",
+      "fontSize": "字級",
+      "fontFamily": "字型",
+      "custom": "自訂…",
+      "customHint": "填寫字型名，如 Consolas",
+      "bold": "粗體",
+      "reset": "還原預設",
+      "openWindow": "開啟連接埠一覽視窗",
+      "saved": "已儲存",
+      "saveFailed": "儲存失敗"
     }
   },
   "feedback": {

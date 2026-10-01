@@ -850,6 +850,13 @@ interface IProxyConfig
     | 'sudoku'
 }
 
+interface INodePortStyle {
+  color?: string
+  font_size?: number
+  font_family?: string
+  bold?: boolean
+}
+
 interface IVergeConfig {
   app_log_level?: 'trace' | 'debug' | 'info' | 'warn' | 'error' | string
   app_log_max_size?: number // KB
@@ -908,6 +915,7 @@ interface IVergeConfig {
   verge_multi_socks_start_port?: number
   verge_multi_socks_count?: number
   verge_node_socks_ports?: Record<string, number>
+  node_port_style?: INodePortStyle
   enable_proxy_guard?: boolean
   enable_bypass_check?: boolean
   use_default_bypass?: boolean
