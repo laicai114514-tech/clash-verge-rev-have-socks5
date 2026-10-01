@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { resolveNodePortStyle } from '@/hooks/use-node-port-style'
+import { hideInitialOverlay } from '@/pages/_layout/utils'
 import { getVergeConfig } from '@/services/cmds'
 
 /**
@@ -12,6 +13,14 @@ export const NodePortsWindow = ({ themeMode }: { themeMode: 'light' | 'dark' }) 
   const { t } = useTranslation()
   const [config, setConfig] = useState<IVergeConfig | null>(null)
   const [copied, setCopied] = useState<number | null>(null)
+
+  // index.html covers the screen with a loading overlay that only the main layout removes.
+  useEffect(() => {
+    const timer = hideInitialOverlay()
+    return () => {
+      if (timer !== undefined) window.clearTimeout(timer)
+    }
+  }, [])
 
   useEffect(() => {
     let alive = true

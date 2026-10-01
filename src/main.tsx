@@ -10,6 +10,7 @@ import { getCurrentWindow } from '@tauri-apps/api/window'
 import { MihomoWebSocket } from 'tauri-plugin-mihomo-api'
 
 import { BaseErrorBoundary } from './components/base'
+import { NodePortsWindow } from './pages/node-ports-window'
 import { router } from './pages/_routers'
 import { preloadHomePageCards } from './pages/home'
 import { AppDataProvider } from './providers/app-data-provider'
@@ -84,7 +85,6 @@ const bootstrapNodePortsWindow = async () => {
     console.error('[main.tsx] Ports window preload failed:', error)
     await initializeLanguage(FALLBACK_LANGUAGE).catch(() => undefined)
   }
-  const { NodePortsWindow } = await import('./pages/node-ports-window')
   createRoot(container).render(
     <React.StrictMode>
       <NodePortsWindow themeMode={initialThemeMode} />
