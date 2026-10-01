@@ -16,7 +16,7 @@ A Clash Meta GUI based on <a href="https://github.com/tauri-apps/tauri">Tauri</a
 
 ## Install
 
-请到发布页面下载对应的安装包：[Release page](https://github.com/clash-verge-rev/clash-verge-rev/releases)
+请到发布页面下载对应的安装包：[Release page](https://github.com/laicai114514-tech/clash-verge-rev-have-socks5/releases)
 目前只有 Windows 版本
 
 #### 安装说明和常见问题，请到 [文档页](https://clash-verge-rev.github.io/) 查看
