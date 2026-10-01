@@ -30,13 +30,13 @@ A Clash Meta GUI based on <a href="https://github.com/tauri-apps/tauri">Tauri</a
 如图所示
 
 **代理列表可以填写多本地端口**
-| ![预览](./docs/捕获2.PNG) |
+ ![预览](./docs/捕获2.PNG) 
 
 **设置-端口显示设置可以调节字体大小，颜色等**
-| ![预览](./docs/捕获1.PNG) |
+ ![预览](./docs/捕获1.PNG) 
 
 **指纹浏览器如图**
-| ![预览](./docs/捕获3.PNG) |
+ ![预览](./docs/捕获3.PNG) 
 
 ---
 
