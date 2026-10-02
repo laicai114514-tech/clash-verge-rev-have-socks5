@@ -3,7 +3,8 @@
     "tooltips": {
       "lightweightMode": "Режим LightWeight",
       "manual": "Документация",
-      "settings": "Настройки главной страницы"
+      "settings": "Настройки главной страницы",
+      "portsWindow": "Node ports window"
     },
     "cards": {
       "trafficStats": "Статистика трафика",
@@ -24,7 +25,11 @@
       },
       "title": "Настройки главной страницы"
     },
-    "title": "Главная"
+    "title": "Главная",
+    "updateHint": {
+      "text": "Update manually from the repo",
+      "tooltip": "No automatic updates. Click to open the repository"
+    }
   },
   "components": {
     "proxyTun": {

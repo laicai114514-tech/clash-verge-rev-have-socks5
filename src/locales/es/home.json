@@ -3,7 +3,8 @@
     "tooltips": {
       "lightweightMode": "Modo ligero",
       "manual": "Manual de uso",
-      "settings": "Configuración de la página de inicio"
+      "settings": "Configuración de la página de inicio",
+      "portsWindow": "Node ports window"
     },
     "cards": {
       "trafficStats": "Estadísticas de tráfico",
@@ -24,7 +25,11 @@
       },
       "title": "Configuración de la página de inicio"
     },
-    "title": "Hogar"
+    "title": "Hogar",
+    "updateHint": {
+      "text": "Update manually from the repo",
+      "tooltip": "No automatic updates. Click to open the repository"
+    }
   },
   "components": {
     "proxyTun": {

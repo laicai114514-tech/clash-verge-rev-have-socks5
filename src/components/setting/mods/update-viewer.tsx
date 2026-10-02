@@ -311,11 +311,18 @@ export function UpdateViewer({ ref }: { ref?: Ref<DialogRef> }) {
           </Box>
           <Button
             variant="contained"
-            size="small"
-            sx={{ whiteSpace: 'nowrap' }}
+            size="large"
+            sx={{
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+              px: 3,
+              py: 1.25,
+              fontSize: 16,
+              fontWeight: 700,
+            }}
             onClick={() => {
               openUrlWithNotice(
-                `https://github.com/clash-verge-rev/clash-verge-rev/releases/tag/v${updateInfo?.version}`,
+                `https://github.com/laicai114514-tech/clash-verge-rev-have-socks5/releases/tag/v${updateInfo?.version}`,
               )
             }}
           >
@@ -324,9 +331,9 @@ export function UpdateViewer({ ref }: { ref?: Ref<DialogRef> }) {
         </Box>
       }
       contentSx={{
-        width: { xs: 'calc(100vw - 56px)', sm: 560 },
+        width: { xs: 'calc(100vw - 56px)', sm: 420 },
         maxWidth: 'calc(100vw - 56px)',
-        height: 'min(64vh, 680px)',
+        height: 'min(40vh, 340px)',
         display: 'flex',
         flexDirection: 'column',
         pb: 1,

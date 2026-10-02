@@ -189,7 +189,12 @@ export interface TranslationResources {
         tooltips: {
           lightweightMode: string
           manual: string
+          portsWindow: string
           settings: string
+        }
+        updateHint: {
+          text: string
+          tooltip: string
         }
       }
     }
@@ -603,10 +608,17 @@ export interface TranslationResources {
           tooltip: string
           usedByOther: string
           window: {
+            add: string
             address: string
             copied: string
             copy: string
+            delete: string
             empty: string
+            hintEdit: string
+            nameRequired: string
+            nodePlaceholder: string
+            saved: string
+            saveFailed: string
             title: string
             total: string
           }

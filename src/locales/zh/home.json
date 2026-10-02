@@ -3,7 +3,8 @@
     "tooltips": {
       "lightweightMode": "轻量模式",
       "manual": "使用手册",
-      "settings": "首页设置"
+      "settings": "首页设置",
+      "portsWindow": "节点端口窗口"
     },
     "cards": {
       "trafficStats": "流量统计",
@@ -24,7 +25,11 @@
       },
       "title": "首页设置"
     },
-    "title": "首页"
+    "title": "首页",
+    "updateHint": {
+      "text": "更新需手动去仓库更新",
+      "tooltip": "本软件不会自动更新，点击打开仓库页面"
+    }
   },
   "components": {
     "proxyTun": {

@@ -3,7 +3,8 @@
     "tooltips": {
       "lightweightMode": "경량 모드",
       "manual": "사용 설명서",
-      "settings": "홈 설정"
+      "settings": "홈 설정",
+      "portsWindow": "Node ports window"
     },
     "cards": {
       "trafficStats": "트래픽 통계",
@@ -24,7 +25,11 @@
       },
       "title": "홈 설정"
     },
-    "title": "홈"
+    "title": "홈",
+    "updateHint": {
+      "text": "Update manually from the repo",
+      "tooltip": "No automatic updates. Click to open the repository"
+    }
   },
   "components": {
     "proxyTun": {

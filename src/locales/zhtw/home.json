@@ -3,7 +3,8 @@
     "tooltips": {
       "lightweightMode": "輕量模式",
       "manual": "使用手冊",
-      "settings": "首頁設定"
+      "settings": "首頁設定",
+      "portsWindow": "節點連接埠視窗"
     },
     "cards": {
       "trafficStats": "流量統計",
@@ -24,7 +25,11 @@
       },
       "title": "首頁設定"
     },
-    "title": "首頁"
+    "title": "首頁",
+    "updateHint": {
+      "text": "更新需手動至倉庫更新",
+      "tooltip": "本軟體不會自動更新，點擊開啟倉庫頁面"
+    }
   },
   "components": {
     "proxyTun": {

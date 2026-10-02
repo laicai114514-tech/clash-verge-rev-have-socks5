@@ -3,6 +3,7 @@ import {
   HelpOutlineRounded,
   HistoryEduOutlined,
   RouterOutlined,
+  SettingsEthernetRounded,
   SettingsOutlined,
   SpeedOutlined,
 } from '@mui/icons-material'
@@ -20,6 +21,7 @@ import {
   IconButton,
   Skeleton,
   Tooltip,
+  Typography,
 } from '@mui/material'
 import { useLockFn } from 'ahooks'
 import { Suspense, lazy, useCallback, useMemo, useState } from 'react'
@@ -34,7 +36,7 @@ import { HomeProfileCard } from '@/components/home/home-profile-card'
 import { ProxyTunCard } from '@/components/home/proxy-tun-card'
 import { useProfiles } from '@/hooks/use-profiles'
 import { useVerge } from '@/hooks/use-verge'
-import { entry_lightweight_mode } from '@/services/cmds'
+import { entry_lightweight_mode, openNodePortsWindow } from '@/services/cmds'
 import { showNotice } from '@/services/notice-service'
 import { openExternalUrl } from '@/utils/open-external-url'
 
@@ -248,6 +250,13 @@ const HomePage = () => {
     ),
   )
 
+  // 更新说明：本版本不会自动更新，点击打开仓库页面
+  const toRepoPage = useLockFn(() =>
+    openExternalUrl(
+      'https://github.com/laicai114514-tech/clash-verge-rev-have-socks5',
+    ).catch(showNotice.error),
+  )
+
   // 新增：打开设置弹窗
   const openSettings = useCallback(() => {
     setSettingsOpen(true)
@@ -325,6 +334,35 @@ const HomePage = () => {
       contentStyle={{ padding: 2 }}
       header={
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Tooltip title={t('home.page.updateHint.tooltip')} arrow>
+            <Typography
+              variant="caption"
+              onClick={toRepoPage}
+              sx={{
+                mr: 1.5,
+                px: 1,
+                py: 0.25,
+                borderRadius: 1,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                color: 'text.secondary',
+                border: '1px dashed',
+                borderColor: 'divider',
+                '&:hover': { color: 'primary.main', borderColor: 'primary.main' },
+              }}
+            >
+              {t('home.page.updateHint.text')}
+            </Typography>
+          </Tooltip>
+          <Tooltip title={t('home.page.tooltips.portsWindow')} arrow>
+            <IconButton
+              onClick={() => void openNodePortsWindow()}
+              size="small"
+              color="inherit"
+            >
+              <SettingsEthernetRounded />
+            </IconButton>
+          </Tooltip>
           <Tooltip title={t('home.page.tooltips.lightweightMode')} arrow>
             <IconButton
               onClick={async () => await entry_lightweight_mode()}

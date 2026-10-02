@@ -105,9 +105,16 @@
         "title": "Node Ports",
         "total": "{{n}} in total",
         "address": "Local address 127.0.0.1, protocol SOCKS5",
-        "empty": "No ports yet. Open the Proxies page and type a port on a node.",
+        "empty": "No ports yet. Add one above, or type a port on a node in the Proxies page.",
         "copy": "Copy",
-        "copied": "Copied"
+        "copied": "Copied",
+        "nodePlaceholder": "Node name (type to search)",
+        "add": "Add",
+        "delete": "Delete",
+        "nameRequired": "Enter a node name first",
+        "hintEdit": "Edit a port number and press Enter to save; the core restarts after saving",
+        "saved": "Saved. Takes effect after the core restarts",
+        "saveFailed": "Save failed"
       }
     }
   },
